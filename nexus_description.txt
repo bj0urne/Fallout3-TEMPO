@@ -153,7 +153,7 @@ iTraceKey=122               ; F11: record 20 s of per-frame timing to a CSV[/cod
 Yes. The DLL can be added or removed at any time. The script-fix plugins can be added at any time. If you remove them later, the game warns once about missing content, which is harmless.
 
 [b]Why not just cap the game at 60 FPS?[/b]
-Even at 60 FPS, the vanilla timer's 64 Hz clock and its Sleep cause uneven frame pacing, and the mouse still has acceleration and uneven X, Y. T.E.M.P.O. improves the game at 60 FPS too. It just doesn't stop there.
+Even at 60 FPS, the vanilla timer's 64 Hz clock and its Sleep cause uneven frame pacing, and the mouse still has acceleration. T.E.M.P.O. improves the game at 60 FPS too. It just doesn't stop there.
 
 [b]Steam Deck / Proton / Linux?[/b]
 Untested. Reports are welcome.

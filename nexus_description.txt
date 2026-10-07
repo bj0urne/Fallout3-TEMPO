@@ -177,5 +177,5 @@ No. The game runs at its intended speed. T.E.M.P.O. only makes sure that speed d
 [*]The authors of [b]Stutter Remover[/b] and the [b]High Refresh Rate Guide[/b], for mapping out these problems first
 [/list]
 
-[b]Source code:[/b] [i](GitHub link)[/i]
+[b]Source code:[/b] [url=https://github.com/bj0urne/Fallout3-TEMPO]github.com/bj0urne/Fallout3-TEMPO[/url] (MIT license)
 [b]Permissions:[/b] free to include in modpacks and collections. Please link back here rather than re-uploading.

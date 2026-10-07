@@ -2,7 +2,7 @@
 
 A [FOSE](https://fose.silverlock.org/) plugin for **Fallout 3** that makes the game framerate-independent. Play at 30, 60, 144, 240+ FPS with correct game speed, smooth frame pacing and stable physics.
 
-**Players:** download from Nexus Mods *(link)*. This repository is the source.
+**Players:** download from **[Nexus Mods](https://www.nexusmods.com/fallout3/mods/27726)** or the [GitHub releases](https://github.com/bj0urne/Fallout3-TEMPO/releases). This repository is the source.
 
 ## What it fixes
 

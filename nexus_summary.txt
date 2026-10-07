@@ -1,6 +1,6 @@
 === Nexus "Brief overview" field (max 350 characters) ===
 
-Play Fallout 3 at any framerate with correct game speed. TEMPO replaces the engine's coarse timers (removing the hidden ~100 FPS cap and microstutter), matches Havok physics to your framerate, disables mouse acceleration and adds a precise FPS limiter. Plus fixes for the only two frame-counting vanilla scripts. Requires FOSE + Anniversary Patcher.
+Finally! Fallout 3 game speed is no longer tied to your FPS! TEMPO replaces the engine's coarse timers (removing the hidden ~100 FPS cap and microstutter), matches Havok physics to your framerate, fixes mouse aiming (removing acceleration), and adds a precise FPS limiter. Cruising the wasteland has never been this smooth!
 
 
 === Short description (under 350 words) ===

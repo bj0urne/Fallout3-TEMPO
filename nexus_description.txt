@@ -1,0 +1,181 @@
+﻿[center][size=6][b]T.E.M.P.O.[/b][/size]
+[size=4][b]T[/b]iming, [b]E[/b]ngine, [b]M[/b]ouse & [b]P[/b]hysics [b]O[/b]verhaul[/size]
+
+[size=3]Play Fallout 3 at 30, 60, 144, 240 FPS or more, with the game running at the right speed and feeling smooth at every framerate.[/size][/center]
+
+[line]
+
+[size=5][b]What is this?[/b][/size]
+
+Much of Fallout 3 depends on your framerate. The engine's clock is coarse and quietly caps the game at about 100 FPS. Physics is tuned for exactly 60 FPS, so ragdolls and loose items misbehave at anything else. Mouse look has acceleration built in.
+
+The usual fixes are INI edits tuned to one refresh rate, plus a 15-year-old stutter remover. [b]T.E.M.P.O.[/b] is a new FOSE plugin that fixes these problems in the engine itself, works at [i]any[/i] framerate, and needs no INI tuning.
+
+[line]
+
+[size=5][b]Features[/b][/size]
+
+[b]Precise engine timer (removes the hidden FPS cap and microstutter)[/b]
+The engine's frame timer counts in whole milliseconds using a Windows clock that only updates 64 times a second. Worse, it forces every frame to last at least 10 ms by calling [i]Sleep()[/i], which is a hidden, jittery cap of about 100 FPS. Separate copies of this timer drive the world, the menus and the interface.
+T.E.M.P.O. replaces [b]all of them[/b] with a high-precision timer, accurate to a fraction of a microsecond, with no floor and no Sleep.
+[list]
+[*]In the author's testing: [b]about 130 â†’ about 250 FPS[/b] on the same PC and in the same area
+[*]Even frame pacing: the frame-time spread dropped from 2â€“3 ms to under 1 ms
+[*]Menus and the Pip-Boy now run at the same framerate as the game
+[/list]
+
+[b]"64 Hz" timer fix[/b]
+About 110 other timers in the game use the same 64 Hz clock. They're redirected to a clock accurate to 1 ms, and Windows timer resolution is set to 1 ms.
+
+[b]Havok physics at any framerate[/b]
+Physics steps in fixed slices of [i]fMaxTime[/i], 1/60 s by default. At any other framerate, physics gets 0 or 2 steps on some frames. The result is jittery ragdolls and items that fall too fast or too slow. T.E.M.P.O. matches the physics step to the real frame time [b]every frame[/b], so physics takes exactly one step per frame. Ragdolls, thrown items and falling objects move smoothly at the right speed whether you play at 30 FPS or 300. You don't need to look up [i]fMaxTime[/i] values for your monitor anymore.
+
+[b]No mouse acceleration (optional, on by default)[/b]
+Fallout 3 scales mouse movement with a built-in acceleration curve. T.E.M.P.O. switches it off, so aiming is 1:1 with your hand, and you don't have to edit any INI files.
+
+[b]Precise FPS limiter (optional)[/b]
+Set any cap, such as 60, 141 or 237. The limiter uses a high-resolution waitable timer plus a short spin at the end, so frames are evenly spaced. In testing, a 30 FPS cap held 33.33 ms Â±0.01 ms.
+
+[b]Script fixes (optional plugins)[/b]
+Every vanilla and DLC script was scanned for timers that count frames instead of seconds. Bethesda used real timers almost everywhere, and only two scripts run faster at high FPS. Both are fixed:
+[list]
+[*][b]TEMPO - Script Fixes.esp[/b]: the random-encounter giant ant no longer grows several times faster at high FPS (requires Fallout3.esm)
+[*][b]TEMPO - Zeta Fix.esp[/b]: a stealth-detection trigger on the Mothership no longer fires several times as often (requires Mothership Zeta)
+[/list]
+
+[b]Built to be safe[/b]
+Before changing anything, T.E.M.P.O. checks the exact bytes of every location it patches. If your game is a different version, or another mod has already changed that code, it writes the reason to its log and leaves your game untouched instead of crashing.
+
+[line]
+
+[size=5][b]Requirements[/b][/size]
+
+[list]
+[*][b]Fallout 3[/b] or [b]Fallout 3: Game of the Year Edition[/b]. Tested on the Steam GOTY edition. GOG and Epic should work after the Anniversary Patcher, but they're untested, so reports are welcome.
+[*][b][url=https://www.nexusmods.com/fallout3/mods/24913]Fallout Anniversary Patcher[/url][/b]. The game must be version 1.7.0.3 without Games for Windows LIVE. The current Steam version (1.7.0.4) does not work with FOSE without it.
+[*][b][url=https://fose.silverlock.org/]Fallout Script Extender (FOSE)[/url][/b], 1.2 beta 2 or newer
+[*][b]Windows 10 or 11[/b]
+[*][i]Mothership Zeta DLC[/i] for the optional Zeta script fix only (included in GOTY)
+[/list]
+
+[line]
+
+[size=5][b]Installation[/b][/size]
+
+[b]Vortex / Mod Organizer 2:[/b] click [i]Mod Manager Download[/i], install and enable. Enable the script-fix plugins in your load order if you want them.
+
+[b]Manual:[/b] extract the archive into [i]Fallout 3\Data\[/i], so you end up with:
+[code]Data\FOSE\Plugins\TEMPO.dll
+Data\FOSE\Plugins\TEMPO.ini
+Data\TEMPO - Script Fixes.esp   (optional)
+Data\TEMPO - Zeta Fix.esp       (optional)[/code]
+
+[b]Launch the game[/b] with [i]Fallout3.exe[/i] (the Anniversary Patcher loads FOSE automatically) or with [i]fose_loader.exe[/i].
+
+[b]Checking that it works:[/b] open [i]Data\FOSE\Plugins\TEMPO.log[/i] after starting the game. You should see "hooked TimeGlobal::Update", "havok fix active" and "mouse acceleration disabled".
+
+[b]Remove these old INI tweaks[/b] from [i]Documents\My Games\Fallout3\Fallout.ini[/i] if you added them:
+[list]
+[*][i]iFPSClamp[/i] must be [b]0[/b]. A non-zero value makes the engine use a fixed timestep, and T.E.M.P.O. steps aside.
+[*]Custom [i]fMaxTime[/i] values are no longer needed. T.E.M.P.O. overrides them.
+[*]Custom [i]fForegroundMouse*[/i] values are overridden while the mouse option is on.
+[/list]
+
+[line]
+
+[size=5][b]Recommended setup[/b][/size]
+
+[list]
+[*][b]VSync off[/b] for the lowest input lag: set [i]iPresentInterval=0[/i] in both [i]Fallout.ini[/i] and [i]FalloutPrefs.ini[/i].
+[*]Then pick one way to control your framerate:
+[list]
+[*][b]G-Sync / FreeSync:[/b] set [i]fFPSLimit[/i] a few FPS below your refresh rate (for example 141 on a 144 Hz screen)
+[*][b]No VRR:[/b] uncapped is fine, or cap at your refresh rate if you prefer
+[*]A GPU driver limiter also works. Use only one limiter.
+[/list]
+[/list]
+
+[line]
+
+[size=5][b]Configuration (TEMPO.ini)[/b][/size]
+
+[code][Timer]
+bFixTimer=1                 ; precise timer for every engine timer
+bFixGetTickCount=1          ; 1 ms clock for the game's other timers ("64 Hz issue")
+bTimerResolution=1          ; 1 ms Windows timer resolution
+fMaxFrameTimeMs=166         ; frames longer than this are clamped (engine default)
+
+[Limiter]
+fFPSLimit=0                 ; 0 = unlimited
+
+[Havok]
+bFixHavok=1                 ; physics step = frame time
+fHavokMinFPS=30             ; below this, physics substeps instead
+fHavokMaxFPS=500            ; above this, the step stops shrinking
+
+[Mouse]
+bDisableMouseAcceleration=1 ; linear mouse look
+
+[Debug]
+bDebugStats=0               ; log frame-time stats every 5 s
+iTraceKey=122               ; F11: record 20 s of per-frame timing to a CSV[/code]
+
+[line]
+
+[size=5][b]Compatibility[/b][/size]
+
+[b]Don't use these alongside T.E.M.P.O.[/b] They change the same timing code:
+[list]
+[*]Fallout Stutter Remover
+[*]lStewieAl's Tweaks [i]Tick Fix[/i]. Set [i]bTickFix=0[/i] in stewie_tweaks.ini; the rest of lStewieAl's Tweaks is fine.
+[*]The INI settings from high refresh rate guides ([i]iFPSClamp[/i], [i]fMaxTime[/i])
+[/list]
+
+[b]Works with everything else[/b] as far as is known. T.E.M.P.O. doesn't touch rendering, saves or game data, apart from the two optional script fixes.
+
+[b]Other mods' scripts:[/b] a mod script that counts frames instead of seconds will run faster at high framerates. This is a problem in that mod's script, not something the engine can fix generally. If something seems too fast, please report it in the Posts tab with the mod name. A scanner that finds these scripts is included with the source.
+
+[b]Not for New Vegas or Tale of Two Wastelands:[/b] this plugin is for the Fallout 3 engine only.
+
+[line]
+
+[size=5][b]FAQ[/b][/size]
+
+[b]Is it safe to add to or remove from an existing save?[/b]
+Yes. The DLL can be added or removed at any time. The script-fix plugins can be added at any time. If you remove them later, the game warns once about missing content, which is harmless.
+
+[b]Why not just cap the game at 60 FPS?[/b]
+Even at 60 FPS, the vanilla timer's 64 Hz clock and its Sleep cause uneven frame pacing, and the mouse still has acceleration. T.E.M.P.O. improves the game at 60 FPS too. It just doesn't stop there.
+
+[b]Steam Deck / Proton / Linux?[/b]
+Untested. Reports are welcome.
+
+[b]Does it change game speed or difficulty?[/b]
+No. The game runs at its intended speed. T.E.M.P.O. only makes sure that speed doesn't change with your framerate.
+
+[line]
+
+[size=5][b]For the curious: how it works[/b][/size]
+
+[spoiler]
+[list]
+[*][b]Timer:[/b] [i]TimeGlobal::Update[/i] (0x0086C280 in 1.7.0.3) gets the time from GetTickCount(), applies a 10 ms minimum with Sleep(), clamps to 166 ms and stores the frame delta that nearly the whole game reads. T.E.M.P.O. redirects the function through a trampoline to a QueryPerformanceCounter version for every TimeGlobal instance. Pausing, the global time multiplier and the engine's own fixed-timestep mode (iFPSClamp) behave as before.
+[*][b]GetTickCount:[/b] the executable's import is redirected to a QPC-derived clock with the same starting point and real 1 ms resolution.
+[*][b]Havok:[/b] the step scheduler (0x008D3C10) takes floor(accumulated / fMaxTime) steps per frame. T.E.M.P.O. sets the fMaxTime:HAVOK setting to the clamped frame time each frame, right before the scheduler runs.
+[*][b]Mouse:[/b] the four fForegroundMouse* settings (engine defaults 4 / 0.2 / 50 / 0.2) are set to 0 once the game has loaded its INIs.
+[*][b]Scripts:[/b] the two fixed scripts were rebuilt with GetSecondsPassed timers and verified against the encoding the GECK uses.
+[/list]
+[/spoiler]
+
+[line]
+
+[size=5][b]Credits[/b][/size]
+
+[list]
+[*]The [b]FOSE team[/b], for the Fallout Script Extender
+[*][b]lStewieAl[/b], for the Fallout Anniversary Patcher
+[*]The authors of [b]Stutter Remover[/b] and the [b]High Refresh Rate Guide[/b], for mapping out these problems first
+[/list]
+
+[b]Source code:[/b] [i](GitHub link)[/i]
+[b]Permissions:[/b] free to include in modpacks and collections. Please link back here rather than re-uploading.
